@@ -18,8 +18,11 @@ export class CreatePlayDate extends Component {
   }
 
   CreatePlayDate() {
-    console.log('ayoooo', this.state.eventName)
-    // make call to Firebase
+//     try{
+
+//     }catch
+    // this.props.closeModal();
+
   }
 
   render() {
