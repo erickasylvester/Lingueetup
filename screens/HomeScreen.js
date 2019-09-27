@@ -17,7 +17,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Header text="LINGUEETUP" />
-      <ScrollView
+      {/* <ScrollView
         style={styles.container}>
         <PlayDate />
         <PlayDate />
@@ -28,7 +28,7 @@ export default function HomeScreen() {
         <PlayDate />
         <PlayDate />
         <PlayDate />
-      </ScrollView>
+      </ScrollView> */}
 
     </View>
   );
