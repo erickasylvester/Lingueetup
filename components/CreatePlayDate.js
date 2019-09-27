@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, TextInput, View, Text,
-    TouchableHighlight, Image, StyleSheet, Button } from 'react-native';
+import { Modal, TextInput, View, Text, ScrollView, TouchableHighlight, Image, StyleSheet, Button } from 'react-native';
+import { FirebaseWrapper } from '../firebase/firebase';
 
 export class CreatePlayDate extends Component {
   constructor(props) {
@@ -8,6 +8,7 @@ export class CreatePlayDate extends Component {
     this.state = {
       eventType: '',
       eventName:'',
+      host:'',
       location:'',
       date:'',
       time:'',
@@ -15,14 +16,29 @@ export class CreatePlayDate extends Component {
       activity:'',
       hashtags:''
     }
+    this.createPlayDate = this.createPlayDate.bind(this)
   }
 
-  CreatePlayDate() {
-//     try{
-
-//     }catch
-    // this.props.closeModal();
-
+  async createPlayDate() {
+    try {
+      console.log('creating play date!', this.state.eventName)
+      // make call to Firebase
+      await FirebaseWrapper.GetInstance().CreateNewDocument('playdates', 
+        { eventType: this.state.eventType,
+          eventName: this.state.eventName,
+          host: this.state.host,
+          location: this.state.location,
+          date: this.state.date,
+          time: this.state.time,
+          language: this.state.language,
+          activity: this.state.activity,
+          hashtags: this.state.hashtags
+       }
+      )
+      this.props.closeModal()
+    } catch (error) {
+      console.log('something went wrong creating playdate: ', error)
+    }
   }
 
   render() {
@@ -31,6 +47,7 @@ export class CreatePlayDate extends Component {
         animationType="slide"
         transparent={false}
         visible={this.props.isModalVisible}>
+        <ScrollView>
         <View style={{ marginTop: 25 }}>
           <TouchableHighlight
             onPress={() => {
@@ -48,7 +65,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(eventType) => this.setState({ eventType })}
             placeholder="event type"
-            value={this.state.text} 
+            value={this.state.eventType} 
             style={styles.input}
           />
 
@@ -57,8 +74,18 @@ export class CreatePlayDate extends Component {
             multiline={true}
             numberOfLines={4}
             onChangeText={(eventName) => this.setState({ eventName })}
-            placeholder="Event name"
-            value={this.state.text} 
+            placeholder="event name"
+            value={this.state.eventName} 
+            style={styles.input}
+          />
+
+          <Text>Host: </Text>
+          <TextInput
+            multiline={true}
+            numberOfLines={4}
+            onChangeText={(host) => this.setState({ host })}
+            placeholder="host"
+            value={this.state.host} 
             style={styles.input}
           />
 
@@ -68,7 +95,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(location) => this.setState({ location })}
             placeholder="location"
-            value={this.state.text} 
+            value={this.state.location} 
             style={styles.input}
           />
 
@@ -78,7 +105,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(date) => this.setState({ date })}
             placeholder="date"
-            value={this.state.text} 
+            value={this.state.date} 
             style={styles.input}
           />
 
@@ -88,7 +115,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(time) => this.setState({ time })}
             placeholder="time"
-            value={this.state.text} 
+            value={this.state.time} 
             style={styles.input}
           />
 
@@ -98,7 +125,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(language) => this.setState({ language })}
             placeholder="language"
-            value={this.state.text} 
+            value={this.state.language} 
             style={styles.input}
           />
 
@@ -108,7 +135,7 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(activity) => this.setState({ activity })}
             placeholder="activity"
-            value={this.state.text} 
+            value={this.state.activity} 
             style={styles.input}
           />
 
@@ -118,12 +145,12 @@ export class CreatePlayDate extends Component {
             numberOfLines={4}
             onChangeText={(hashtags) => this.setState({ hashtags })}
             placeholder="hashtags"
-            value={this.state.text} 
+            value={this.state.hashtags} 
             style={styles.input}
           />
         </View>
-
-        <Button title="Create PlayDate" onPress={() => this.CreatePlayDate()}/>
+        <Button title="Create PlayDate" onPress={() => this.createPlayDate()}/>
+        </ScrollView>
       </Modal>
     )
   }
@@ -131,7 +158,7 @@ export class CreatePlayDate extends Component {
 
 const styles = StyleSheet.create({
   input: {
-    height: 80
+    height: 60
   },
   close: {
     width: 40,

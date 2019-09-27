@@ -17,6 +17,14 @@ exports[`App renders the root without loading screen 1`] = `
     }
   }
 >
+  <View
+    style={
+      Object {
+        "backgroundColor": "black",
+        "height": 20,
+      }
+    }
+  />
   <AppNavigator />
 </View>
 `;

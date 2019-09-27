@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "Lingueetup",
-    "slug": "LingueetupApp",
+    "slug": "linqueetup",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android",
