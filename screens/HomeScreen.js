@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Image,
   Platform,
@@ -12,26 +12,35 @@ import {
 
 import { PlayDate } from '../components/PlayDate';
 import { Header } from '../components/Header';
+import { FirebaseWrapper } from '../firebase/firebase';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Header text="LINGUEETUP" />
-      {/* <ScrollView
-        style={styles.container}>
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-        <PlayDate />
-      </ScrollView> */}
+export default class HomeScreen extends Component {
+  constructor() {
+    super()
+    this.state = {
+      playdates: []
+    }
+  }
 
-    </View>
-  );
+  async componentDidMount() {
+    await FirebaseWrapper.GetInstance().SetupCollectionListener('playdates', (playdates) => this.setState({ playdates }))
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header text="LINGUEETUP" />
+        <ScrollView
+          style={styles.container}>
+          {
+            this.state.playdates && this.state.playdates.map(playdate => 
+              <PlayDate eventInfo={playdate} key={playdate.id} />
+            )
+          }
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
@@ -77,8 +86,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 45,
-    margin: 10,
+    marginTop: 20,
     padding: 0
   },
   developmentModeText: {
