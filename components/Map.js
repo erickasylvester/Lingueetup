@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Marker } from 'react-native-maps'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-
+import Geocoder from 'react-native-geocoding';
 import { FirebaseWrapper } from '../firebase/firebase';
 
 export class Map extends Component {
@@ -20,12 +20,14 @@ export class Map extends Component {
     this.state = {
       region : {}
     }
+    Geocoder.init("AIzaSyDFtJUTkoeUoQjChhPxkjNxAOnrDLxXBYo");
   }
 
   onRegionChange(region) {
     this.setState({ region });
   }
 
+  //Jersey City initial location
   getInitialState() {
     return {
       region: {
@@ -37,14 +39,46 @@ export class Map extends Component {
     };
   }
 
+  // async getLatLong(address){
+  //   try{
+  //     const json = await Geocoder.from(address)
+	// 	  const location = json.results[0].geometry.location;
+  //     console.log("GOT IT!!", location);
+  //     return location;
+	// 	}
+	// 	catch(error){
+  //     console.log("OOps, Unable to get Lat Long");
+  //     console.warn(error)
+  //   }
+  // }
+
   componentDidMount(){
     this.setState({region: this.getInitialState()})
   }
 
   render() {
     const playdates = this.props.playdates;
+    let markers = [];
+    playdates.forEach(async(playdate) => {
+        Geocoder.from(playdate.location)
+        .then(json => {
+          var location = json.results[0].geometry.location;
+          console.log("GOT THE THING!!", location);
+          let marker =
+          {
+            latitude: playdate.latlong.lat,
+            longitude: playdate.latlong.lng,
+            title: playdate.eventName,
+            subtitle: 'TBD'
+          }
+          console.log("Adding marker: ", marker);
+          markers.push(marker);
+          console.log("Added marker: ", marker, " to array: ", markers);
+        })
+        .catch(error => console.warn(error));
+    })
+    console.log("All the markers: ", markers);
     const region = this.state.region.region;
-    console.log('Initial Region: ', region)
     return (
         <View style={styles.mapcontainer}>
           <MapView
@@ -52,15 +86,32 @@ export class Map extends Component {
               style={styles.map}
               initialRegion={region}
           >
-            {playdates.map((playdate, idx) => (
+            {markers.map(marker => (
               <Marker
-                key = {idx}
-                // coordinate={marker.latlng}
-                coordinate={this.getInitialState()}
-                title={playdate.title}
-                description={playdate.description}
+                coordinate={{latitude: 40.719985,
+                  longitude: -74.036380}}
+                title={"title"}
+                description={"description"}
               />
             ))}
+            {/* {playdates.map(async(playdate, idx) => { 
+              const latlong = await this.getLatLong(playdate.location)
+              console.log("Mapping address: ", playdate.location, " to latlong: ", latlong)
+              if(latlong){
+                const coordinates = { latitude: latlong.lat,
+                                      longitude: latlong.lng}
+                console.log('Translated LAT LONG', coordinates)
+                return ({
+                  <Marker
+                    key = {idx}
+                    coordinate={{latitude: 40.719985,
+                      longitude: -74.036380}}
+                    // title={playdate.title}
+                    // description={playdate.description}
+                  />
+                )}
+              })
+            } */}
           </MapView>
         </View>
     );
