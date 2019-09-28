@@ -8,10 +8,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
+  Button
 } from 'react-native';
 
 import { PlayDate } from '../components/PlayDate';
 import { Header } from '../components/Header';
+import { Map } from '../components/Map';
+
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import { FirebaseWrapper } from '../firebase/firebase';
@@ -20,7 +24,8 @@ export default class HomeScreen extends Component {
   constructor() {
     super()
     this.state = {
-      playdates: []
+      playdates: [],
+      mapView: false
     }
   }
 
@@ -32,27 +37,35 @@ export default class HomeScreen extends Component {
     return (
       <View style={styles.container}>
         <Header text="LINGUEETUP" />
-        <View style={styles.mapcontainer}>
-          <MapView
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              region={{
-              latitude: 40.705303,
-              longitude: -74.009150,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-              }}
-          >
-          </MapView>
+        <View>
+        {!this.state.mapView ? (
+          <View>
+            <Button
+              title="Map View"
+              onPress={() => this.setState({mapView: true})}
+            />
+            <ScrollView style={styles.eventscontainer}
+              style={styles.container}>
+              {
+                this.state.playdates && this.state.playdates.map(playdate => 
+                  <PlayDate eventInfo={playdate} key={playdate.id} />
+                )
+              }
+            </ScrollView>
+          </View>
+        ) : (
+          <View>
+            <Button
+            title="List View"
+            onPress={() => this.setState({mapView: false})}
+            />
+            <Map/>
+          </View>
+        )}
         </View>
-        <ScrollView style={styles.eventscontainer}
-          style={styles.container}>
-          {
-            this.state.playdates && this.state.playdates.map(playdate => 
-              <PlayDate eventInfo={playdate} key={playdate.id} />
-            )
-          }
-        </ScrollView>
+        
+
+  
       </View>
     );
   }

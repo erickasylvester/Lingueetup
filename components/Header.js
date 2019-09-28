@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
 import { CreatePlayDate } from './CreatePlayDate';
+import { Map } from '../components/Map';
 
 export class Header extends Component {
   constructor(props) {
@@ -21,6 +22,8 @@ export class Header extends Component {
         <Text style={styles.text}>
           {this.props.text}
         </Text>
+
+
 
         <TouchableOpacity onPress={() => this.setState({ isModalVisible: true })} style={styles.buttonContainer}>
           <Image
