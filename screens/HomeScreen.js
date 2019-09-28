@@ -59,7 +59,7 @@ export default class HomeScreen extends Component {
             title="List View"
             onPress={() => this.setState({mapView: false})}
             />
-            <Map/>
+            <Map playdates={this.state.playdates}/>
           </View>
         )}
         </View>

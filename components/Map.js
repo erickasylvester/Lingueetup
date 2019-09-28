@@ -9,36 +9,58 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { Marker } from 'react-native-maps'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import { FirebaseWrapper } from '../firebase/firebase';
 
 export class Map extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      playdates: []
+      region : {}
     }
   }
 
-  async componentDidMount() {
-    await FirebaseWrapper.GetInstance().SetupCollectionListener('playdates', (playdates) => this.setState({ playdates }))
+  onRegionChange(region) {
+    this.setState({ region });
+  }
+
+  getInitialState() {
+    return {
+      region: {
+        latitude: 40.719985,
+        longitude: -74.036380,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    };
+  }
+
+  componentDidMount(){
+    this.setState({region: this.getInitialState()})
   }
 
   render() {
+    const playdates = this.props.playdates;
+    const region = this.state.region.region;
+    console.log('Initial Region: ', region)
     return (
         <View style={styles.mapcontainer}>
           <MapView
               provider={PROVIDER_GOOGLE}
               style={styles.map}
-              region={{
-              latitude: 40.705303,
-              longitude: -74.009150,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-              }}
+              initialRegion={region}
           >
+            {playdates.map((playdate, idx) => (
+              <Marker
+                key = {idx}
+                // coordinate={marker.latlng}
+                coordinate={this.getInitialState()}
+                title={playdate.title}
+                description={playdate.description}
+              />
+            ))}
           </MapView>
         </View>
     );
