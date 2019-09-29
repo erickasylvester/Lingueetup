@@ -18,9 +18,12 @@ export class Map extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      region : {}
+      region : {},
+      markers: []
     }
     Geocoder.init("AIzaSyDFtJUTkoeUoQjChhPxkjNxAOnrDLxXBYo");
+    this.addMarker = this.addMarker.bind(this);
+    this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   onRegionChange(region) {
@@ -39,45 +42,53 @@ export class Map extends Component {
     };
   }
 
-  // async getLatLong(address){
-  //   try{
-  //     const json = await Geocoder.from(address)
-	// 	  const location = json.results[0].geometry.location;
-  //     console.log("GOT IT!!", location);
-  //     return location;
-	// 	}
-	// 	catch(error){
-  //     console.log("OOps, Unable to get Lat Long");
-  //     console.warn(error)
-  //   }
-  // }
+  async addMarker(location){
+    try{
+      let json = await Geocoder.from(location)
+      var location = json.results[0].geometry.location;
+      console.log("GOT THE THING!!", location);
+      const thing =
+      {
+        latitude: location.lat,
+        longitude: location.lng,
+        title: 'Sydneys home',
+        subtitle: 'TBD'
+      }
+      console.log("NEW marker: ", thing);
+      let pins = this.state.markers;
+      pins.push(thing);
+      console.log("Added marker: ", thing, " to array: ", pins);
+      this.setState({markers: pins})
+    }
+    catch(error){
+       console.warn(error);
+    };
+  }
 
-  componentDidMount(){
+
+  async componentDidMount(){
+    console.log("Component did mount: ", this.props.playdates)
     this.setState({region: this.getInitialState()})
+
+    const playdates = this.props.playdates;
+    for(let i = 0; i < playdates.length; i++){
+      await this.addMarker(playdates[i].location)
+    }
+
+    // const thing =
+    // {
+    //   latitude: 40.717674,
+    //   longitude: -74.032406,
+    //   title: 'Exchange Place',
+    //   subtitle: 'TBD'
+    // }
+    // pins.push(thing);
   }
 
   render() {
-    const playdates = this.props.playdates;
-    let markers = [];
-    playdates.forEach(async(playdate) => {
-        Geocoder.from(playdate.location)
-        .then(json => {
-          var location = json.results[0].geometry.location;
-          console.log("GOT THE THING!!", location);
-          let marker =
-          {
-            latitude: playdate.latlong.lat,
-            longitude: playdate.latlong.lng,
-            title: playdate.eventName,
-            subtitle: 'TBD'
-          }
-          console.log("Adding marker: ", marker);
-          markers.push(marker);
-          console.log("Added marker: ", marker, " to array: ", markers);
-        })
-        .catch(error => console.warn(error));
-    })
-    console.log("All the markers: ", markers);
+
+
+    // console.log("All the markers: ", markers);
     const region = this.state.region.region;
     return (
         <View style={styles.mapcontainer}>
@@ -86,14 +97,20 @@ export class Map extends Component {
               style={styles.map}
               initialRegion={region}
           >
-            {markers.map(marker => (
-              <Marker
-                coordinate={{latitude: 40.719985,
-                  longitude: -74.036380}}
-                title={"title"}
-                description={"description"}
-              />
-            ))}
+            {
+              this.state.markers.map((marker, idx) => {
+                console.log("In Loop: ", marker)
+                return (
+                  <Marker
+                      key={idx}
+                    coordinate={{latitude: marker.latitude,
+                      longitude: marker.longitude}}
+                    title={marker.title}
+                    description={marker.subtitle}
+                  />
+                )
+              })
+            }
             {/* {playdates.map(async(playdate, idx) => { 
               const latlong = await this.getLatLong(playdate.location)
               console.log("Mapping address: ", playdate.location, " to latlong: ", latlong)
