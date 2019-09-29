@@ -17,6 +17,10 @@ export function PlayDate(props) {
             <Text style={styles.eventDetails}>{props.eventInfo.time}</Text>
         </View>
       </View>
+        <Text style={styles.eventDetails}>Host: {props.eventInfo.host}</Text>
+        <Text style={styles.eventDetails}>Language: {props.eventInfo.language}</Text>
+        <Text style={styles.eventDetails}>Activity: {props.eventInfo.activity}</Text>
+        <Text style={styles.eventDetails}>Hashtags: {props.eventInfo.hashtags}</Text>
     </View>
   );
 }
@@ -48,3 +52,4 @@ const styles = StyleSheet.create({
     fontSize: 10
   }
 })
+

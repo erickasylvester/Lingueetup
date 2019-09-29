@@ -33,7 +33,7 @@ export class Header extends Component {
         <TouchableOpacity onPress={() => this.setState({ isModalVisible: true })} style={styles.buttonContainer}>
           <Image
             style={styles.button}
-            source={{uri:'https://github.com/dadewoyin/react-native-day-1/blob/master/assets/images/NewPost.png?raw=true'}}
+            source={require('./../assets/images/NewPost.png')}
           />
         </TouchableOpacity>
 

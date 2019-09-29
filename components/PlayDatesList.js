@@ -16,9 +16,6 @@ export class PlayDatesList extends Component {
   render() {
     const playdates = this.props.playdates;
     return (
-        <View>
-          
-        </View>
         <View style={styles.listcontainer}>
             <ScrollView style={styles.eventscontainer}
               style={styles.container}>
