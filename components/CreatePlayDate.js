@@ -6,7 +6,6 @@ export class CreatePlayDate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      eventType: '',
       eventName:'',
       host:'',
       location:'',
@@ -24,8 +23,7 @@ export class CreatePlayDate extends Component {
       console.log('creating play date!', this.state.eventName)
       // make call to Firebase
       await FirebaseWrapper.GetInstance().CreateNewDocument('playdates', 
-        { eventType: this.state.eventType,
-          eventName: this.state.eventName,
+        { eventName: this.state.eventName,
           host: this.state.host,
           location: this.state.location,
           date: this.state.date,
@@ -43,7 +41,7 @@ export class CreatePlayDate extends Component {
 
   render() {
     return (
-      <Modal
+      <Modal style={styles.neweventcontainer}
         animationType="slide"
         transparent={false}
         visible={this.props.isModalVisible}>
@@ -58,16 +56,6 @@ export class CreatePlayDate extends Component {
               style={styles.close}
             />
           </TouchableHighlight>
-          
-          <Text>Event Type: </Text>
-          <TextInput
-            multiline={true}
-            numberOfLines={4}
-            onChangeText={(eventType) => this.setState({ eventType })}
-            placeholder="event type"
-            value={this.state.eventType} 
-            style={styles.input}
-          />
 
           <Text>Event Name: </Text>
           <TextInput

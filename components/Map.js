@@ -13,6 +13,7 @@ import { Marker } from 'react-native-maps'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
 import { FirebaseWrapper } from '../firebase/firebase';
+import { styles } from '../Styles';
 
 export class Map extends Component {
   constructor(props) {
@@ -42,22 +43,19 @@ export class Map extends Component {
     };
   }
 
-  async addMarker(location){
+  async addMarker(location, title, subtitle){
     try{
       let json = await Geocoder.from(location)
       var location = json.results[0].geometry.location;
-      console.log("GOT THE THING!!", location);
-      const thing =
+      const pin =
       {
         latitude: location.lat,
         longitude: location.lng,
-        title: 'Sydneys home',
-        subtitle: 'TBD'
+        title: title,
+        subtitle: subtitle
       }
-      console.log("NEW marker: ", thing);
       let pins = this.state.markers;
-      pins.push(thing);
-      console.log("Added marker: ", thing, " to array: ", pins);
+      pins.push(pin);
       this.setState({markers: pins})
     }
     catch(error){
@@ -67,28 +65,17 @@ export class Map extends Component {
 
 
   async componentDidMount(){
-    console.log("Component did mount: ", this.props.playdates)
     this.setState({region: this.getInitialState()})
 
     const playdates = this.props.playdates;
     for(let i = 0; i < playdates.length; i++){
-      await this.addMarker(playdates[i].location)
+      await this.addMarker(playdates[i].location, 
+                            playdates[i].eventName,
+                            playdates[i].date)
     }
-
-    // const thing =
-    // {
-    //   latitude: 40.717674,
-    //   longitude: -74.032406,
-    //   title: 'Exchange Place',
-    //   subtitle: 'TBD'
-    // }
-    // pins.push(thing);
   }
 
   render() {
-
-
-    // console.log("All the markers: ", markers);
     const region = this.state.region.region;
     return (
         <View style={styles.mapcontainer}>
@@ -99,7 +86,6 @@ export class Map extends Component {
           >
             {
               this.state.markers.map((marker, idx) => {
-                console.log("In Loop: ", marker)
                 return (
                   <Marker
                       key={idx}
@@ -111,40 +97,22 @@ export class Map extends Component {
                 )
               })
             }
-            {/* {playdates.map(async(playdate, idx) => { 
-              const latlong = await this.getLatLong(playdate.location)
-              console.log("Mapping address: ", playdate.location, " to latlong: ", latlong)
-              if(latlong){
-                const coordinates = { latitude: latlong.lat,
-                                      longitude: latlong.lng}
-                console.log('Translated LAT LONG', coordinates)
-                return ({
-                  <Marker
-                    key = {idx}
-                    coordinate={{latitude: 40.719985,
-                      longitude: -74.036380}}
-                    // title={playdate.title}
-                    // description={playdate.description}
-                  />
-                )}
-              })
-            } */}
           </MapView>
         </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  mapcontainer: {
-    ...StyleSheet.absoluteFillObject,
-    height: 300,
-    width: 300,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: 60
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  }
-});
+// const styles = StyleSheet.create({
+//   mapcontainer: {
+//     ...StyleSheet.absoluteFillObject,
+//     height: 650,
+//     width: 400,
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//     marginTop: 60
+//   },
+//   map: {
+//     ...StyleSheet.absoluteFillObject,
+//   }
+// });

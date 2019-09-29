@@ -23,8 +23,13 @@ export class Header extends Component {
           {this.props.text}
         </Text>
 
-
-
+        
+        <TouchableOpacity onPress={() => this.setState({ isModalVisible: true })} style={styles.buttonContainer}>
+          <Image
+            style={styles.button}
+            source={{uri:'https://embedgooglemaps.com/wp-content/uploads/2016/11/cropped-EmbedGoogleMpas-avatar.png'}}
+          />
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => this.setState({ isModalVisible: true })} style={styles.buttonContainer}>
           <Image
             style={styles.button}
@@ -40,7 +45,7 @@ export class Header extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  headercontainer: {
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#dadada'
   },
-  text: {
+  titletext: {
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
@@ -59,7 +64,10 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: 'contain'
   },
-  buttonContainer: {
+  rightButtonContainer: {
     paddingRight: 5
+  },
+  leftButtonContainer: {
+    paddingLeft: 5
   }
 })
