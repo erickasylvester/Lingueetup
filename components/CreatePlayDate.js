@@ -6,7 +6,6 @@ export class CreatePlayDate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      eventType: '',
       eventName:'',
       host:'',
       location:'',
@@ -43,7 +42,7 @@ export class CreatePlayDate extends Component {
 
   render() {
     return (
-      <Modal
+      <Modal style={styles.neweventcontainer}
         animationType="slide"
         transparent={false}
         visible={this.props.isModalVisible}>
@@ -58,8 +57,8 @@ export class CreatePlayDate extends Component {
               style={styles.close}
             />
           </TouchableHighlight>
-          
-          <Text>Event Type: </Text>
+
+          <Text>Event Name: </Text>
           <TextInput
             multiline={true}
             numberOfLines={4}
@@ -69,7 +68,7 @@ export class CreatePlayDate extends Component {
             style={styles.input}
           />
 
-          <Text>Event Name: </Text>
+          <Text>Host: </Text>
           <TextInput
             multiline={true}
             numberOfLines={4}

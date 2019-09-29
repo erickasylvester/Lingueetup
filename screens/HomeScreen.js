@@ -4,13 +4,15 @@ import {
   Image,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Alert,
+  Button,
+  ImageBackground
 } from 'react-native';
-
-import { PlayDate } from '../components/PlayDate';
+import { styles } from '../Styles'
+import { PlayDatesList } from '../components/PlayDatesList';
 import { Header } from '../components/Header';
 import { FirebaseWrapper } from '../firebase/firebase';
 
