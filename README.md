@@ -2,7 +2,7 @@
 
 ## To run application
 `npm install`
-'npm start'
+`npm start`
 
 A browser window should appear. Scan the QR code with your camera to open Expo on your mobile phone.
 
