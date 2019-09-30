@@ -31,8 +31,8 @@ export default class HomeScreen extends Component {
     return (
       <View style={styles.backgroundcontainer}>	
           <ImageBackground source={{uri:'https://images.pexels.com/photos/1148998/pexels-photo-1148998.jpeg?auto=compress&cs=tinysrgb&h=650&w=940'}} style={{width: '100%', height: '100%'}}>
-            <Text>LINGUEETUP</Text>
             <View style={styles.welcomebuttonscontainer}>
+                <Text style={styles.appname}>LINGUEETUP</Text>
                 <Button title="Sign In" type="outline" onPress={() => Alert.alert('Feature not available... yet')}/>
                 <Button title="Guest" type="outline" onPress={() => this.setState({selectedMode: true})}/>
             </View>	              

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, TextInput, View, Text, ScrollView, TouchableHighlight, Image, StyleSheet, Button } from 'react-native';
+import { Modal, TextInput, View, Text, ScrollView, TouchableHighlight, Image, StyleSheet, Button, Alert} from 'react-native';
 import { FirebaseWrapper } from '../firebase/firebase';
 
 export class CreatePlayDate extends Component {
@@ -23,8 +23,7 @@ export class CreatePlayDate extends Component {
       console.log('creating play date!', this.state.eventName)
       // make call to Firebase
       await FirebaseWrapper.GetInstance().CreateNewDocument('playdates', 
-        { eventType: this.state.eventType,
-          eventName: this.state.eventName,
+        { eventName: this.state.eventName,
           host: this.state.host,
           location: this.state.location,
           date: this.state.date,
@@ -37,6 +36,7 @@ export class CreatePlayDate extends Component {
       this.props.closeModal()
     } catch (error) {
       console.log('something went wrong creating playdate: ', error)
+      this.Alert.alert("Invalid data", error)
     }
   }
 
@@ -62,16 +62,7 @@ export class CreatePlayDate extends Component {
           <TextInput
             multiline={true}
             numberOfLines={4}
-            onChangeText={(eventType) => this.setState({ eventType })}
-            placeholder="event type"
-            value={this.state.eventType} 
-            style={styles.input}
-          />
-
-          <Text>Host: </Text>
-          <TextInput
-            multiline={true}
-            numberOfLines={4}
+            autoCompleteType={'off'}
             onChangeText={(eventName) => this.setState({ eventName })}
             placeholder="event name"
             value={this.state.eventName} 
@@ -122,7 +113,7 @@ export class CreatePlayDate extends Component {
           <TextInput
             multiline={true}
             numberOfLines={4}
-            onChangeText={(language) => this.setState({ language })}
+            onChangeText={(language) => this.setState({ language: language.toLowerCase() })}
             placeholder="language"
             value={this.state.language} 
             style={styles.input}
