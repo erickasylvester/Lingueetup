@@ -23,7 +23,8 @@ export class CreatePlayDate extends Component {
       console.log('creating play date!', this.state.eventName)
       // make call to Firebase
       await FirebaseWrapper.GetInstance().CreateNewDocument('playdates', 
-        { eventName: this.state.eventName,
+        { eventType: this.state.eventType,
+          eventName: this.state.eventName,
           host: this.state.host,
           location: this.state.location,
           date: this.state.date,
