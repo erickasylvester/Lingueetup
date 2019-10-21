@@ -9,6 +9,8 @@ import {
 import HomeScreen from '../screens/HomeScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import AboutScreen from '../screens/AboutScreen';
+
 import Icon from 'react-native-vector-icons'
 
 const HomeStack = createStackNavigator({
@@ -25,6 +27,20 @@ HomeStack.navigationOptions = {
   //         ? `ios-information-circle${focused ? '' : '-outline'}`
   //         : 'md-information-circle'
   //     }
+  //   />
+  // ),
+};
+
+const AboutStack = createStackNavigator({
+  About: AboutScreen,
+});
+
+AboutStack.navigationOptions = {
+  tabBarLabel: 'About'
+  // tabBarIcon: ({ focused }) => (
+  //   <TabBarIcon
+  //     focused={focused}
+  //     name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
   //   />
   // ),
 };
@@ -60,5 +76,6 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   ExploreStack,
+  AboutStack,
   SettingsStack,
 });

@@ -86,6 +86,7 @@ export default class ExploreScreen extends Component {
                 <Picker.Item label="Spanish" value="spanish" />
                 <Picker.Item label="French" value="french" />
                 <Picker.Item label="Italian" value="italian" />
+                <Picker.Item label="Korean" value="korean" />
               </Picker>
             </View>
             <View style={styles.datacontainer}>
