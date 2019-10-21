@@ -15,7 +15,8 @@ This project was born as part of a 4-day stackathon event hosted by Grace Hopper
 Technologies: React Native, Firebase, Expo.
 
 ## Watch Stackathon presentation:
-https://youtu.be/nNYyM7TGE9E
+Watch this project being presented at the end of the stackathon <a href = "https://youtu.be/nNYyM7TGE9E" >here!</a>
+
 
 ## To run application
 `npm install`
