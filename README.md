@@ -8,7 +8,7 @@ Adults can host events and it is encoraged to plan an activity. It could be as s
 
 This community-driven application helps connect parents/caregivers with the common goal of fostering a second language for their children.
 
-![](readme_assets/post.gif)
+![](readme_assets/Lingueetup.mov)
 
 ## Technologies
 This project was born as part of a 4-day stackathon event hosted by Grace Hopper Academy. We were tasked with exploring a new technology and I chose React Native for front-end development. 
