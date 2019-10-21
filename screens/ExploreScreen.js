@@ -9,7 +9,8 @@ import {
   View,
   Alert,
   Button,
-  ImageBackground
+  ImageBackground,
+  Picker
 } from 'react-native';
 import { styles } from '../Styles'
 import { PlayDatesList } from '../components/PlayDatesList';
@@ -24,7 +25,8 @@ export default class ExploreScreen extends Component {
     this.state = {
       playdates: [],
       mapView: false,
-      isModalVisible: false
+      isModalVisible: false,
+      language: 'any'
     }
   }
 
@@ -37,6 +39,10 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
+    let filteredPlaydates = this.state.playdates;
+    if(this.state.language !== 'any'){
+      filteredPlaydates = this.state.playdates.filter(playdate => playdate.language === this.state.language)
+    }
     return (
         <View style={styles.maincontainer}>
             <View style={styles.headercontainer}>
@@ -68,15 +74,29 @@ export default class ExploreScreen extends Component {
 
                 <CreatePlayDate isModalVisible={this.state.isModalVisible} closeModal={() => this.closeModal()} />
             </View>
-            
-            <View>
+            <View style={styles.languagepickercontainer}>
+              <Picker 
+                selectedValue={this.state.language}
+                style={{height: 50, width: 100}}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({language: itemValue})
+                }>
+                <Picker.Item label="Any" value="any" />
+                <Picker.Item label="English" value="english" />
+                <Picker.Item label="Spanish" value="spanish" />
+                <Picker.Item label="French" value="french" />
+                <Picker.Item label="Italian" value="italian" />
+                <Picker.Item label="Korean" value="korean" />
+              </Picker>
+            </View>
+            <View style={styles.datacontainer}>
             {!this.state.mapView ? (
                 <View>
-                    <PlayDatesList playdates={this.state.playdates}/>
+                    <PlayDatesList playdates={filteredPlaydates} language={this.state.language}/>
                 </View>
             ) : (
                 <View>
-                    <Map playdates={this.state.playdates}/>
+                    <Map playdates={filteredPlaydates} language={this.state.language}/>
                 </View>
             )}
             </View>

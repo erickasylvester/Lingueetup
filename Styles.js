@@ -1,19 +1,34 @@
 import {StyleSheet, Platform} from 'react-native'
+import { blue } from 'ansi-colors';
 
 export const styles = StyleSheet.create({
     backgroundcontainer:{
       flex: 1,
       backgroundColor: '#fff',
-      padding: 0,
-      height: null,
-      width: null
+      padding: 0
     },
     maincontainer: {
       flex: 1,
+      flexDirection: 'column',
       backgroundColor: '#fff',
-      marginTop: 45,
+      marginTop: 20,
       margin: 10,
       padding: 0
+    },
+    headercontainer: {
+      flex: 1,
+      height: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingLeft: 30,
+      borderBottomWidth: 1,
+      borderBottomColor: '#dadada'
+    },
+    languagepickercontainer : {
+      flex: 2
+    },
+    datacontainer : {
+      flex: 5
     },
     mapcontainer: {
       ...StyleSheet.absoluteFillObject,
@@ -28,7 +43,7 @@ export const styles = StyleSheet.create({
     },
     listcontainer: {
       ...StyleSheet.absoluteFill,
-      height: 725,
+      height: 500,
       width: 400,
     },
     neweventcontainer : {
@@ -115,15 +130,7 @@ export const styles = StyleSheet.create({
       color: '#2e78b7',
     },
     welcomebuttonscontainer:{
-      marginTop: 625
-    },
-    headercontainer: {
-      height: 50,
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingLeft: 30,
-      borderBottomWidth: 1,
-      borderBottomColor: '#dadada'
+      marginTop: 575
     },
     titletext: {
       textAlign: 'center',
@@ -141,6 +148,12 @@ export const styles = StyleSheet.create({
     },
     leftButtonContainer: {
       paddingLeft: 5
+    },
+    appname :{
+      alignItems: 'center',
+      color: 'blue',
+      textAlign: 'center',
+      fontSize: 20
     }
   });
   

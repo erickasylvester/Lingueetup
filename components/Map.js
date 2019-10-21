@@ -77,6 +77,7 @@ export class Map extends Component {
 
   render() {
     const region = this.state.region.region;
+
     return (
         <View style={styles.mapcontainer}>
           <MapView
